@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import './question.dart';
 import 'answer.dart';
-import './models/QuestionList.dart';
+import './models/QuestionModel.dart';
 
 class Quiz extends StatelessWidget {
-  final QuestionList _questionList;
-  final Function _selectAnswerHandler;
+  final QuestionModel _questionList;
+  final VoidStringFunc _selectAnswerHandler;
 
-  Quiz({@required QuestionList questionList, @required Function selectAnswerHandler})
+  Quiz({@required QuestionModel questionList, @required Function selectAnswerHandler})
       : _questionList = questionList,
         _selectAnswerHandler = selectAnswerHandler;
 
@@ -17,10 +17,10 @@ class Quiz extends StatelessWidget {
     return Column(
       children: <Widget>[
         Question(_questionList.getCurrentQuestion()),
-        ..._questionList.getCurrentQuestionAnswers().map((anwser) {
+        ..._questionList.getCurrentQuestionAnswers().map((answer) {
           return Anwser(
-            selectHandler: _selectAnswerHandler,
-            anwserText: anwser,
+            selectHandler: () => _selectAnswerHandler(answer.anwserText),
+            answerText: answer.anwserText,
           );
         })
       ],

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'models/QuestionModel.dart';
+
 class Anwser extends StatelessWidget {
-  final Function _selectHandler;
-  final String _anwserText;
-  Anwser({@required Function selectHandler, @required String anwserText}):
+  final VoidNoParamsFunc _selectHandler;
+  final String _answerText;
+  Anwser({@required Function selectHandler, @required String answerText}):
     _selectHandler = selectHandler,
-    _anwserText = anwserText;
+    _answerText = answerText;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class Anwser extends StatelessWidget {
         child: RaisedButton(
           color: Colors.blue,
           onPressed: _selectHandler,
-          child: Text(_anwserText),
+          child: Text(_answerText),
         ));
   }
 }

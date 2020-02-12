@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first_test/quiz.dart';
 
-import './models/QuestionList.dart';
-import './question.dart';
-import './answer.dart';
+import './models/QuestionModel.dart';
+import './result.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,11 +14,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  static final _questionList = QuestionList();
+  static final _questionList = QuestionModel();
 
-  void changeQuestion() {
+  void answerQuestion(String answerText) {
     setState(() {
-      _questionList.nextQuestion();
+      _questionList.answerQuestion(answerText);
+    });
+  }
+
+  void resetQuestions() {
+    setState(() {
+      _questionList.resetQuestions();
     });
   }
 
@@ -31,10 +36,8 @@ class _MyAppState extends State<MyApp> {
         title: Text('This is my app'),
       ),
       body: _questionList.hasMoreQuestion()
-          ? Quiz(questionList: _questionList, selectAnswerHandler: changeQuestion,)
-          : Center(
-              child: Text('You answered all questions!'),
-            ),
+          ? Quiz(questionList: _questionList, selectAnswerHandler: answerQuestion,)
+          : Result(score: _questionList.score, resetQuizHandler: resetQuestions,),
     ));
   }
 }
