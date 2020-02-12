@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first_test/quiz.dart';
+
+import './models/QuestionList.dart';
 import './question.dart';
 import './answer.dart';
 
@@ -12,44 +15,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _questionIndex = 0;
+  static final _questionList = QuestionList();
 
   void changeQuestion() {
     setState(() {
-      _questionIndex++;
+      _questionList.nextQuestion();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      {
-        'questionText': 'what\'s your favorite sports?',
-        'answers': ['Wrestling', 'Soccer', 'Swimming', 'Hockey'],
-      },
-      {
-        'questionText': 'what\'s your favorite animals',
-        'answers': ['Dog', 'Cat', 'Snake', 'Chicken', 'Dragon'],
-      },
-      {
-        'questionText': 'what\'s your favorite person',
-        'answers': ['Phu', 'Huy', 'Tin', 'Lau', 'Tac'],
-      }
-    ];
-
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
         title: Text('This is my app'),
       ),
-      body: Column(
-        children: <Widget>[
-          Question(questions[_questionIndex]['questionText']),
-          ...(questions[_questionIndex]['answers'] as List<String>).map((anwser) {
-            return Anwser(changeQuestion, anwser);
-          })
-        ],
-      ),
+      body: _questionList.hasMoreQuestion()
+          ? Quiz(questionList: _questionList, selectAnswerHandler: changeQuestion,)
+          : Center(
+              child: Text('You answered all questions!'),
+            ),
     ));
   }
 }
